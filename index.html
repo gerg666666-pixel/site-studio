@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сайт для своего дела — 4 000 ₽, за 2 дня</title>
+<meta name="description" content="Одностраничный сайт для ремонта, автосервиса, мастера. Цены, калькулятор, форма заявки. 4 000 ₽, готово за 2 дня, хостинг бесплатно.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Сайт для своего дела — 4 000 ₽, за 2 дня">
+<meta property="og:description" content="Одна страница, которая отвечает на «сколько стоит» и собирает заявки. Два живых примера внутри.">
+<meta property="og:image" content="https://gerg666666-pixel.github.io/site-studio/og-stroybaza.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--ink:#14130f; --ink2:#3d3a33; --mut:#6f6a60;
+--bg:#fbfbf8; --card:#ffffff; --line:#e3e0d7;
+--acc:#155e46; --acc-t:#0f4433; --acc-bg:rgba(21,94,70,.07);
+--r:14px;
+}
+html{scroll-behavior:smooth}
+body{
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+background:var(--bg);color:var(--ink);line-height:1.55;
+-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+a{color:inherit}
+
+/* header */
+header{border-bottom:1px solid var(--line);background:rgba(251,251,248,.9);position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:16px;height:62px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:-.02em;font-size:1.02rem}
+.logo i{width:22px;height:22px;border-radius:6px;background:var(--acc);display:block;position:relative}
+.logo i::after{content:"";position:absolute;inset:6px 6px auto 6px;height:2px;background:#fff;border-radius:2px;box-shadow:0 4px 0 #fff,0 8px 0 #fff}
+.hnav{display:flex;align-items:center;gap:22px;font-size:.9rem;color:var(--ink2)}
+.hnav a{text-decoration:none}
+.hnav a:hover{color:var(--acc)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+background:var(--acc);color:#fff;text-decoration:none;font-weight:700;font-size:.94rem;
+padding:12px 20px;border-radius:10px;border:0;cursor:pointer;transition:.18s}
+.btn:hover{background:#0f4433;transform:translateY(-1px)}
+.btn.sm{padding:9px 15px;font-size:.86rem}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid #cfcabd}
+.btn.ghost:hover{background:#fff;border-color:var(--ink)}
+
+/* hero */
+.hero{padding:74px 0 62px;border-bottom:1px solid var(--line)}
+.kick{display:inline-flex;align-items:center;gap:8px;font-size:.76rem;font-weight:700;
+letter-spacing:.09em;text-transform:uppercase;color:var(--acc-t);
+background:var(--acc-bg);padding:6px 12px;border-radius:999px;margin-bottom:20px}
+h1{font-size:clamp(2rem,4.4vw,3.15rem);line-height:1.07;letter-spacing:-.032em;font-weight:800;max-width:16ch}
+h1 em{font-style:normal;color:var(--acc)}
+.lead{margin-top:20px;font-size:1.1rem;color:var(--ink2);max-width:52ch}
+.hacts{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.facts{display:flex;flex-wrap:wrap;gap:14px 34px;margin-top:42px;padding-top:26px;border-top:1px solid var(--line)}
+.fact b{display:block;font-size:1.42rem;letter-spacing:-.02em;font-weight:800}
+.fact span{font-size:.83rem;color:var(--mut)}
+
+/* section */
+section{padding:66px 0}
+.shead{max-width:60ch;margin-bottom:34px}
+h2{font-size:clamp(1.5rem,2.7vw,2rem);letter-spacing:-.025em;line-height:1.15;font-weight:800}
+.sub{margin-top:11px;color:var(--ink2);font-size:1rem}
+
+/* demos */
+.demos{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.demo{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+display:flex;flex-direction:column;transition:.2s}
+.demo:hover{border-color:#c9c4b5;box-shadow:0 10px 30px -12px rgba(20,19,15,.14)}
+.demo .shot{display:block;position:relative;aspect-ratio:1200/630;background:#eee;overflow:hidden;border-bottom:1px solid var(--line)}
+.demo .shot img{width:100%;height:100%;object-fit:cover;display:block;transition:.35s}
+.demo:hover .shot img{transform:scale(1.02)}
+.demo .body{padding:19px 20px 21px;display:flex;flex-direction:column;gap:9px;flex:1}
+.demo .tag{font-size:.73rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc-t)}
+.demo h3{font-size:1.11rem;letter-spacing:-.015em;font-weight:800}
+.demo p{font-size:.9rem;color:var(--mut);flex:1}
+.demo .go{font-size:.88rem;font-weight:700;color:var(--acc);text-decoration:none;
+display:inline-flex;align-items:center;gap:6px;margin-top:4px}
+.demo .go:hover{text-decoration:underline}
+
+/* inside */
+.inside{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.icell{background:var(--card);padding:24px 22px}
+.icell b{display:block;font-size:.98rem;margin-bottom:6px;letter-spacing:-.01em}
+.icell span{font-size:.885rem;color:var(--mut)}
+.icell .n{font-size:.72rem;font-weight:800;color:var(--acc-t);letter-spacing:.1em;display:block;margin-bottom:12px}
+
+/* prices */
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.price{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px 22px;
+display:flex;flex-direction:column;gap:14px}
+.price.hot{border:1.5px solid var(--acc);position:relative;box-shadow:0 14px 34px -18px rgba(21,94,70,.4)}
+.price.hot::before{content:"чаще берут";position:absolute;top:-10px;left:22px;background:var(--acc);color:#fff;
+font-size:.68rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.price .nm{font-size:.83rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.price .amt{font-size:1.95rem;font-weight:800;letter-spacing:-.03em;line-height:1}
+.price ul{list-style:none;display:flex;flex-direction:column;gap:9px;font-size:.885rem;color:var(--ink2);flex:1}
+.price li{display:flex;gap:9px;align-items:flex-start}
+.price li::before{content:"";flex:0 0 5px;height:5px;border-radius:50%;background:var(--acc);margin-top:.5em}
+.price .btn{width:100%}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.step{border-top:2px solid var(--acc);padding-top:16px}
+.step .k{font-size:.74rem;font-weight:800;letter-spacing:.1em;color:var(--acc-t);margin-bottom:9px}
+.step b{display:block;font-size:.98rem;margin-bottom:6px;letter-spacing:-.01em}
+.step p{font-size:.87rem;color:var(--mut)}
+
+/* faq */
+.faq{border-top:1px solid var(--line);max-width:760px}
+details{border-bottom:1px solid var(--line);padding:17px 0}
+summary{cursor:pointer;font-weight:700;font-size:.98rem;list-style:none;display:flex;
+justify-content:space-between;gap:14px;align-items:center;letter-spacing:-.01em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.3rem;font-weight:400;color:var(--acc);line-height:1}
+details[open] summary::after{content:"–"}
+details p{margin-top:11px;font-size:.91rem;color:var(--ink2);max-width:64ch}
+
+/* cta */
+.cta{background:var(--ink);color:#f4f2ec;border-radius:18px;padding:52px 44px;
+display:flex;align-items:center;justify-content:space-between;gap:34px;flex-wrap:wrap}
+.cta h2{color:#fff;max-width:20ch}
+.cta p{color:#b8b3a7;margin-top:10px;font-size:.98rem;max-width:44ch}
+.cta .btn{background:#fff;color:var(--ink)}
+.cta .btn:hover{background:#e9e6dd}
+
+footer{border-top:1px solid var(--line);padding:30px 0 40px;font-size:.85rem;color:var(--mut)}
+.frow{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+
+@media(max-width:900px){
+.demos,.inside,.prices,.steps{grid-template-columns:1fr}
+.inside{gap:1px}
+.hero{padding:52px 0 46px}
+.cta{padding:36px 26px}
+.hnav a:not(.btn){display:none}
+.facts{gap:18px 26px}
+}
+@media(max-width:560px){
+section{padding:48px 0}
+.fact b{font-size:1.24rem}
+.hacts .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="wrap hrow">
+  <div class="logo"><i></i> сайтдлядела</div>
+  <nav class="hnav">
+    <a href="#demos">Примеры</a>
+    <a href="#prices">Цены</a>
+    <a href="#how">Как работает</a>
+    <a href="#faq">Вопросы</a>
+    <a class="btn sm js-mail" href="#">Написать</a>
+  </nav>
+</div>
+</header>
+
+<div class="wrap">
+<section class="hero">
+  <span class="kick">Свободен для заказов</span>
+  <h1>Сайт, который отвечает на «сколько стоит» — <em>без вас</em></h1>
+  <p class="lead">Одна страница для локального бизнеса: ремонт, автосервис, мастер, грузоперевозки. Цены, калькулятор и форма заявки. Клиент считает сам, вы получаете готовый запрос.</p>
+  <div class="hacts">
+    <a class="btn" href="#demos">Посмотреть два живых сайта</a>
+    <a class="btn ghost js-mail" href="#">Спросить по цене</a>
+  </div>
+  <div class="facts">
+    <div class="fact"><b>4 000 ₽</b><span>шаблон как есть</span></div>
+    <div class="fact"><b>2 дня</b><span>от брифа до ссылки</span></div>
+    <div class="fact"><b>0 ₽</b><span>хостинг и обслуживание</span></div>
+    <div class="fact"><b>19 КБ</b><span>грузится за секунду</span></div>
+  </div>
+</section>
+</div>
+
+<div class="wrap">
+<section id="demos">
+  <div class="shead">
+    <h2>Два сайта, сделанных целиком</h2>
+    <p class="sub">Не картинки и не макеты — откройте и потыкайте. Оба варианта сделаны по одной схеме: цена сверху, калькулятор в середине, заявка внизу.</p>
+  </div>
+  <div class="demos">
+    <article class="demo">
+      <a class="shot" href="https://gerg666666-pixel.github.io/stroybaza-remont-demo/" target="_blank" rel="noopener">
+        <img src="og-stroybaza.png" alt="Превью сайта для компании по ремонту квартир" loading="lazy" width="1200" height="630">
+      </a>
+      <div class="body">
+        <span class="tag">Ремонт квартир · чек 0,5–2 млн ₽</span>
+        <h3>СТРОЙБАЗА — ремонт под ключ</h3>
+        <p>Калькулятор по площади и трём уровням отделки, допы с ценами, гарантия 3 года, отзывы, запись на замер.</p>
+        <a class="go" href="https://gerg666666-pixel.github.io/stroybaza-remont-demo/" target="_blank" rel="noopener">Открыть сайт →</a>
+      </div>
+    </article>
+    <article class="demo">
+      <a class="shot" href="https://gerg666666-pixel.github.io/aurum-detailing-demo/" target="_blank" rel="noopener">
+        <img src="og-aurum.png" alt="Превью сайта для детейлинг-центра" loading="lazy" width="1200" height="630">
+      </a>
+      <div class="body">
+        <span class="tag">Автодетейлинг · чек 9–25 тыс ₽</span>
+        <h3>AURUM — детейлинг-центр</h3>
+        <p>Четыре услуги с ценами и сроками, калькулятор по классу машины, этапы работы, отзывы, запись онлайн.</p>
+        <a class="go" href="https://gerg666666-pixel.github.io/aurum-detailing-demo/" target="_blank" rel="noopener">Открыть сайт →</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section>
+  <div class="shead">
+    <h2>Что внутри каждой страницы</h2>
+    <p class="sub">Один файл. Никаких конструкторов, плагинов и ежемесячных платежей.</p>
+  </div>
+  <div class="inside">
+    <div class="icell"><span class="n">01</span><b>Цена на первом экране</b><span>Человек видит порядок цен за две секунды и не уходит искать «а сколько будет».</span></div>
+    <div class="icell"><span class="n">02</span><b>Калькулятор</b><span>Площадь, класс машины, тип отделки — сумма считается сама и отправляется в заявке.</span></div>
+    <div class="icell"><span class="n">03</span><b>Форма заявки</b><span>Имя, телефон, что нужно. Приходит вам на почту или в мессенджер.</span></div>
+    <div class="icell"><span class="n">04</span><b>Отзывы и гарантии</b><span>Три реальных отзыва, срок гарантии, работа по договору — снимает страх «а не кинут ли».</span></div>
+    <div class="icell"><span class="n">05</span><b>Мобильная версия</b><span>Больше половины заходов с телефона — вёрстка под это и сделана.</span></div>
+    <div class="icell"><span class="n">06</span><b>Превью для мессенджеров</b><span>Ссылка в Telegram и WhatsApp разворачивается в карточку с картинкой, а не в синий текст.</span></div>
+  </div>
+</section>
+
+<section id="prices">
+  <div class="shead">
+    <h2>Сколько стоит</h2>
+    <p class="sub">Фиксированная цена, без «от» и без доплат по ходу. Правки в рамках согласованного — бесплатно.</p>
+  </div>
+  <div class="prices">
+    <div class="price">
+      <span class="nm">Шаблон</span>
+      <div class="amt">4 000 ₽</div>
+      <ul>
+        <li>Готовая страница под вашу сферу</li>
+        <li>Ваше название, услуги, цены</li>
+        <li>Фото и логотип — если есть</li>
+        <li>Готово за 1 день</li>
+        <li>1 круг правок</li>
+      </ul>
+      <a class="btn ghost js-mail" href="#">Заказать</a>
+    </div>
+    <div class="price hot">
+      <span class="nm">Под ключ</span>
+      <div class="amt">12 000 ₽</div>
+      <ul>
+        <li>Структура и тексты под ваш бизнес</li>
+        <li>Калькулятор с вашими ценами</li>
+        <li>Подбор фото, оформление</li>
+        <li>Публикация на бесплатном хостинге</li>
+        <li>2 круга правок, готово за 2 дня</li>
+      </ul>
+      <a class="btn js-mail" href="#">Заказать</a>
+    </div>
+    <div class="price">
+      <span class="nm">Под ключ + заявки</span>
+      <div class="amt">18 000 ₽</div>
+      <ul>
+        <li>Всё из «под ключ»</li>
+        <li>Форма шлёт заявки вам на почту</li>
+        <li>Подключение своего домена</li>
+        <li>Метка и статистика посещений</li>
+        <li>Правки 30 дней после сдачи</li>
+      </ul>
+      <a class="btn ghost js-mail" href="#">Заказать</a>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="shead">
+    <h2>Как это происходит</h2>
+    <p class="sub">От вас нужно полчаса внимания. Всё остальное — моя работа.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="k">Шаг 1</div><b>Присылаете вводные</b><p>Название, что делаете, цены, телефон, 5–10 фото работ. Если фото нет — подберу.</p></div>
+    <div class="step"><div class="k">Шаг 2</div><b>Через 2 дня — ссылка</b><p>Открываете на телефоне, говорите, что поправить. Цена уже окончательная.</p></div>
+    <div class="step"><div class="k">Шаг 3</div><b>Правки и запуск</b><p>Вношу правки, публикую. Сайт живёт на бесплатном хостинге, домен — по желанию.</p></div>
+    <div class="step"><div class="k">Шаг 4</div><b>Оплата после показа</b><p>Сначала смотрите готовый сайт, потом платите. Не понравилось — не платите.</p></div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="shead"><h2>Частые вопросы</h2></div>
+  <div class="faq">
+    <details><summary>Почему так дешево?<span></span></summary>
+      <p>Потому что нет офиса, менеджеров и дизайн-проекта на 60 листов. Я собираю страницу из проверенной структуры и одного файла — это быстрее и дешевле студии в 5–10 раз при том же результате: человек видит цены и оставляет заявку.</p></details>
+    <details><summary>Сайт будет мой?<span></span></summary>
+      <p>Да. Файл и доступы передаю вам. Хостинг бесплатный — GitHub Pages или аналог. Оплачиваете только домен, если нужен свой: примерно 200–400 ₽ в год.</p></details>
+    <details><summary>Смогу сам менять цены и тексты?<span></span></summary>
+      <p>Да — это обычный HTML, цены лежат в одном месте и подписаны. Покажу, где менять. Если совсем не хочется лезть — правлю сам, это недорого.</p></details>
+    <details><summary>А если у меня уже есть сайт?<span></span></summary>
+      <p>Могу переделать существующий: оставить тексты и фото, но перестроить так, чтобы цена была видна сразу, а заявка занимала один экран. Стоимость та же.</p></details>
+    <details><summary>Вы вообще кто?<span></span></summary>
+      <p>Разработчик, делаю сайты для локального бизнеса. Два примера выше — мои работы, они открыты и работают прямо сейчас. Готов сделать третий для вас.</p></details>
+    <details><summary>А заявки реально придут?<span></span></summary>
+      <p>Сайт не приводит людей сам — он не даёт уйти тем, кто уже пришёл: со страницы 2ГИС, Авито или из рекламы. Человек видит цену и пишет, вместо того чтобы звонить и спрашивать «а сколько».</p></details>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="cta">
+    <div>
+      <h2>Покажу, как будет выглядеть ваш сайт</h2>
+      <p>Пришлите название и цены — соберу первый экран и покажу до оплаты. Это бесплатно.</p>
+    </div>
+    <a class="btn js-mail" href="#">Написать мне</a>
+  </div>
+</section>
+</div>
+
+<footer>
+  <div class="wrap frow">
+    <span>© 2026 · сайты для локального бизнеса · Екатеринбург и область</span>
+    <span>Демо-страницы: <a href="https://gerg666666-pixel.github.io/stroybaza-remont-demo/" target="_blank" rel="noopener">ремонт</a> · <a href="https://gerg666666-pixel.github.io/aurum-detailing-demo/" target="_blank" rel="noopener">детейлинг</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var u='gerg666666', d='gmail.com';
+  var addr=u+'@'+d;
+  document.querySelectorAll('.js-mail').forEach(function(el){
+    el.setAttribute('href','mailto:'+addr+'?subject='+encodeURIComponent('Сайт для моего бизнеса'));
+    el.addEventListener('click',function(){ el.href='mailto:'+addr+'?subject='+encodeURIComponent('Сайт для моего бизнеса'); });
+  });
+})();
+</script>
+</body>
+</html>
