@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Парсер цен с выгрузкой в таблицу — живое демо</title>
+<style>
+  :root{--bg:#0b1219;--panel:#101b26;--line:#1e2d3b;--text:#e9edf0;--dim:#9fb0c0;--muted:#6c7d8d;--acc:#4ea4f6;--ok:#3ddc97;--warn:#f0a742}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.6;padding:42px 20px 60px}
+  .wrap{max-width:1120px;margin:0 auto}
+  h1{font-size:30px;letter-spacing:-.5px;margin:0 0 12px}
+  .lead{color:var(--dim);font-size:16px;max-width:700px;margin:0 0 28px}
+  .app{display:grid;grid-template-columns:330px 1fr;gap:20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .lbl{font-size:11.5px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin:0 0 7px;font-weight:600}
+  .field{width:100%;background:#0c1620;border:1px solid #24384b;color:#cfe0ee;border-radius:9px;padding:10px 12px;font-size:13.5px;font-family:ui-monospace,Consolas,monospace;resize:vertical;min-height:96px}
+  .row{display:flex;gap:8px;margin-top:12px}
+  .chk{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--dim);margin-top:10px}
+  .box{width:15px;height:15px;border-radius:4px;border:1px solid #2f465c;background:#0c1620;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--acc)}
+  .box.on{background:var(--acc);color:#07121c;border-color:var(--acc)}
+  .go{width:100%;margin-top:16px;background:var(--acc);color:#07121c;border:0;border-radius:10px;padding:12px;font-size:15px;font-weight:700;cursor:pointer}
+  .go:hover{filter:brightness(1.08)}
+  .go:disabled{opacity:.55;cursor:default}
+  .bar{height:6px;background:#132434;border-radius:4px;overflow:hidden;margin:16px 0 6px}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3ddc97,#4ea4f6);transition:width .25s}
+  .stat{font-size:12.5px;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+  th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.9px;color:var(--muted);font-weight:600;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:8px;border-bottom:1px solid #16232f;color:#c8d4df;white-space:nowrap}
+  td.name{white-space:normal;max-width:230px}
+  tr.new td{animation:flash 1.1s ease}
+  .up{color:var(--ok)} .down{color:#ff7b72} .skip{color:var(--warn)}
+  @keyframes flash{from{background:rgba(78,164,246,.16)}to{background:transparent}}
+  .tg{margin-top:16px;background:#17212b;border:1px solid #24384b;border-radius:12px;padding:14px 16px;font-size:13.5px;color:#c8d4df;display:none}
+  .tg.show{display:block;animation:in .3s ease}
+  .tg b{color:#fff}
+  .tg pre{margin:8px 0 0;font-family:ui-monospace,Consolas,monospace;font-size:12.5px;color:#9fb0c0;white-space:pre-wrap}
+  @keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .note{color:var(--muted);font-size:12.5px;margin-top:14px}
+  @media(max-width:860px){.app{grid-template-columns:1fr}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Парсер цен с выгрузкой в таблицу</h1>
+  <p class="lead">Живое демо: сбор карточек по списку артикулов, проверка изменений, лог пропусков и сводка
+    в Telegram. Нажмите «Запустить сбор» — таблица заполнится по-настоящему, с прогрессом и повторами.</p>
+
+  <div class="app">
+    <div>
+      <div class="card">
+        <p class="lbl">Артикулы и запросы</p>
+        <textarea class="field" id="src">12345678
+87654321
+кофемолка электрическая
+термокружка 500 мл
+99990011
+43218765</textarea>
+        <div class="chk" onclick="tog(this)"><span class="box on">✓</span>Повторять запрос при ошибке</div>
+        <div class="chk" onclick="tog(this)"><span class="box on">✓</span>Писать историю цен по датам</div>
+        <div class="chk" onclick="tog(this)"><span class="box">✓</span>Уведомлять только об изменениях</div>
+        <button class="go" id="go" onclick="run()">Запустить сбор</button>
+        <div class="bar"><i id="pr"></i></div>
+        <div class="stat" id="stat">Готов к запуску · 6 позиций в списке</div>
+      </div>
+      <p class="note">Демо работает на встроенных данных, чтобы не нагружать чужие сайты.
+        В реальном парсере те же шаги идут по вашему списку и расписанию.</p>
+    </div>
+
+    <div>
+      <div class="card">
+        <p class="lbl">Результат</p>
+        <table id="tbl">
+          <thead><tr><th>Позиция</th><th>Цена</th><th>Было</th><th>Остаток</th><th>Статус</th></tr></thead>
+          <tbody id="body"><tr><td colspan="5" style="color:#5b6c7c;padding:22px 8px">Таблица пуста — нажмите «Запустить сбор»</td></tr></tbody>
+        </table>
+        <div class="tg" id="tg">
+          <b>Сводка в Telegram</b>
+          <pre id="tgtext"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  {name:'Кофемолка Bosch TSM6A013B', price:3490, was:3990, stock:14, st:'ok'},
+  {name:'Термокружка Stanley 470 мл', price:2870, was:2870, stock:6, st:'ok'},
+  {name:'Кофемолка электрическая Kitfort', price:4120, was:null, stock:23, st:'ok'},
+  {name:'Артикул 12345678 · карточка', price:null, was:null, stock:null, st:'retry'},
+  {name:'Термокружка 500 мл · карточка', price:1590, was:1740, stock:0, st:'ok'},
+  {name:'Артикул 43218765 · карточка', price:6310, was:null, stock:3, st:'ok'},
+];
+
+function tog(el){ el.querySelector('.box').classList.toggle('on'); }
+
+let running = false;
+
+function fmt(n){ return n === null ? '—' : n.toLocaleString('ru-RU') + ' ₽'; }
+
+function run(){
+  if (running) return;
+  running = true;
+  const btn = document.getElementById('go');
+  const body = document.getElementById('body');
+  const pr = document.getElementById('pr');
+  const stat = document.getElementById('stat');
+  const tg = document.getElementById('tg');
+  btn.disabled = true;
+  btn.textContent = 'Собираю…';
+  tg.classList.remove('show');
+  body.innerHTML = '';
+  pr.style.width = '0';
+
+  let i = 0, ok = 0, fails = 0;
+  const tick = () => {
+    if (i >= DATA.length) return finish();
+    const d = DATA[i];
+    const tr = document.createElement('tr');
+    tr.className = 'new';
+    const diff = (d.price !== null && d.was !== null) ? d.price - d.was : null;
+    let priceCell = fmt(d.price);
+    if (diff !== null && diff !== 0) {
+      priceCell += ' <span class="' + (diff < 0 ? 'up' : 'down') + '">' + (diff < 0 ? '▼' : '▲') +
+                   Math.abs(diff).toLocaleString('ru-RU') + '</span>';
+    }
+    const statusCell = d.st === 'retry'
+      ? '<span class="skip">повтор 2/3 → пропуск в лог</span>'
+      : '<span class="up">ок</span>';
+    tr.innerHTML = '<td class="name">' + d.name + '</td><td>' + priceCell + '</td><td style="color:#7d8b99">' +
+                   fmt(d.was) + '</td><td>' + (d.stock === null ? '—' : d.stock) + '</td><td>' + statusCell + '</td>';
+    body.appendChild(tr);
+    if (d.st === 'retry') fails++; else ok++;
+    i++;
+    pr.style.width = Math.round(i / DATA.length * 100) + '%';
+    stat.textContent = 'Собрано ' + i + ' из ' + DATA.length +
+      ' · ошибок: ' + fails + (fails ? ' (в лог, не в тишину)' : '');
+    setTimeout(tick, 620);
+  };
+
+  function finish(){
+    btn.textContent = 'Запустить сбор';
+    btn.disabled = false;
+    running = false;
+    stat.textContent = 'Готово · ' + ok + ' позиций собрано, ' + fails + ' в логе ошибок';
+    document.getElementById('tgtext').textContent =
+      'Сводка по ценам · ' + new Date().toLocaleDateString('ru-RU') + '\n' +
+      'Собрано: ' + ok + ' из ' + DATA.length + '\n' +
+      'Подешевело: 2 · Подорожало: 0\n' +
+      'Нет в наличии: 1 (термокружка 500 мл)\n' +
+      'Ошибки: ' + fails + ' — сайт отдал капчу, повтор не помог\n' +
+      'Файл: prices-2026-11-05.xlsx (14 КБ)';
+    tg.classList.add('show');
+  }
+
+  setTimeout(tick, 300);
+}
+document.getElementById('src').addEventListener('input', e => {
+  const n = e.target.value.split('\n').filter(s => s.trim()).length;
+  document.getElementById('stat').textContent = 'Готов к запуску · ' + n + ' позиций в списке';
+});
+</script>
+</body>
+</html>
